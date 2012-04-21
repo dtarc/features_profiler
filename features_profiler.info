@@ -1,5 +1,5 @@
 name = Features Profiler
-description = Allows for the display of feature components in a more human friendly way
+description = Display feature components in a more human friendly way
 package = Features
 core = 7.x
 dependencies[] = features
