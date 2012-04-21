@@ -1,0 +1,53 @@
+<?php 
+
+/**
+ * Implements hook_menu().
+ */
+function features_profiler_menu() {
+  $items = array();
+  $items['admin/structure/features/profiler'] = array(
+    'title' => 'Profiler',
+    'description' => 'View collection of features in a human friendly way.',
+  //  'page callback' => 'drupal_get_form',
+//    'page arguments' => array('features_profiler_form'),
+    'page callback' => 'features_profiler_scribbler',
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'features_profiler.pages.inc',
+    'weight' => 20,
+  );
+  $items['admin/structure/features/profiler/view'] = array(
+    'title' => 'View',
+    'description' => 'View collection of features in a human friendly way.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('features_profiler_form'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'features_profiler.pages.inc',
+    'weight' => 0,
+  );
+  $items['admin/structure/features/profiler/settings'] = array(
+    'title' => 'Settings',
+    'description' => 'Configure display settings for Feature Profiler.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('features_settings_form'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'features_profiler.pages.inc',
+    'weight' => 10,
+  );
+  $items['admin/structure/features/%feature/profiler'] = array(
+    'title' => 'Profiler',
+    'description' => 'View this feature in a human friendly way.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('features_profiler_form', 3),
+    'load arguments' => array(3, TRUE),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'features_profiler.pages.inc',
+    'weight' => 20,
+  );
+  foreach ($items as $path => $item) {
+    if (!isset($item['access callback'])) {
+      $items[$path]['access callback'] = 'user_access';
+      $items[$path]['access arguments'] = array('manage features');
+    }
+  }
+  return $items;
+}
